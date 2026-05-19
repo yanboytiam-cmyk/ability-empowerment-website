@@ -4143,11 +4143,18 @@ document.querySelectorAll('[data-split]').forEach((el) => {
   if (isInOrAboveViewport(el)) {
     el.classList.add('in-view');
   }
+  /* Bidirectional reveal: animation entree + sortie.
+     `end: 'bottom top'` -> the exit (`remove in-view`) only fires when
+     the element is fully off-screen, so the user never sees a still-on-
+     screen element fade out. */
   ScrollTrigger.create({
     trigger: el,
     start: 'top 88%',
-    once: true,
-    onEnter: () => el.classList.add('in-view'),
+    end: 'bottom top',
+    onEnter:      () => el.classList.add('in-view'),
+    onLeave:      () => el.classList.remove('in-view'),
+    onEnterBack:  () => el.classList.add('in-view'),
+    onLeaveBack:  () => el.classList.remove('in-view'),
   });
 });
 
@@ -4158,8 +4165,11 @@ document.querySelectorAll('.fade-up').forEach((el) => {
   ScrollTrigger.create({
     trigger: el,
     start: 'top 90%',
-    once: true,
-    onEnter: () => el.classList.add('in-view'),
+    end: 'bottom top',
+    onEnter:      () => el.classList.add('in-view'),
+    onLeave:      () => el.classList.remove('in-view'),
+    onEnterBack:  () => el.classList.add('in-view'),
+    onLeaveBack:  () => el.classList.remove('in-view'),
   });
 });
 
@@ -4460,8 +4470,8 @@ gsap.utils.toArray('.condition-row').forEach((row, i) => {
       scrollTrigger: {
         trigger: row,
         start: 'top 90%',
-        end: 'bottom 10%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.03,
     });
@@ -4474,8 +4484,8 @@ gsap.fromTo('.step',
     scrollTrigger: {
       trigger: '.timeline',
       start: 'top 85%',
-      end: 'bottom 15%',
-      toggleActions: 'play none none none',
+      end: 'bottom top',
+      toggleActions: 'play reverse play reverse',
     },
   });
 
@@ -4488,8 +4498,8 @@ gsap.utils.toArray('.door').forEach((card, i) => {
       scrollTrigger: {
         trigger: '.doors-grid',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.1,
     });
@@ -4503,8 +4513,8 @@ gsap.utils.toArray('.stat').forEach((stat, i) => {
       scrollTrigger: {
         trigger: '.stats-grid',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.08,
     });
@@ -4518,8 +4528,8 @@ gsap.utils.toArray('.res-card, .download-card').forEach((card, i) => {
       scrollTrigger: {
         trigger: '.resources-grid',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.1,
     });
@@ -4533,8 +4543,8 @@ gsap.utils.toArray('.team-card').forEach((card, i) => {
       scrollTrigger: {
         trigger: '.team-scroll',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.08,
     });
@@ -4666,8 +4676,8 @@ gsap.utils.toArray('.price-row').forEach((row, i) => {
       scrollTrigger: {
         trigger: '.price-list',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.08,
     });
@@ -4681,8 +4691,8 @@ gsap.utils.toArray('.plan-chip').forEach((chip, i) => {
       scrollTrigger: {
         trigger: '.plans-row',
         start: 'top 90%',
-        end: 'bottom 10%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.05,
     });
@@ -4696,8 +4706,8 @@ gsap.utils.toArray('.visit-list li').forEach((li, i) => {
       scrollTrigger: {
         trigger: '.visit-list',
         start: 'top 85%',
-        end: 'bottom 15%',
-        toggleActions: 'play none none none',
+        end: 'bottom top',
+        toggleActions: 'play reverse play reverse',
       },
       delay: i * 0.08,
     });
