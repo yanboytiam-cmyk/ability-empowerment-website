@@ -1,0 +1,22 @@
+# Editor / OS
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+*~
+
+# Backups created by tooling
+*.backup-*
+*.bak
+
+# Build / tool caches
+node_modules/
+.cache/
+dist/
+build/
+
+# Logs / temp
+*.log
+tmp/
