@@ -4136,27 +4136,22 @@ function splitWords(el) {
 
 document.querySelectorAll('[data-split]').forEach((el) => {
   splitWords(el);
+  /* Reveal once and stay visible — prevents text disappearing on fast scroll */
   ScrollTrigger.create({
     trigger: el,
     start: 'top 88%',
-    end: 'bottom 15%',
+    once: true,
     onEnter: () => el.classList.add('in-view'),
-    onLeave: () => el.classList.remove('in-view'),
-    onEnterBack: () => el.classList.add('in-view'),
-    onLeaveBack: () => el.classList.remove('in-view'),
   });
 });
 
-/* Fade-up for any .fade-up element — enter + exit toggle */
+/* Fade-up: reveal once and stay visible */
 document.querySelectorAll('.fade-up').forEach((el) => {
   ScrollTrigger.create({
     trigger: el,
     start: 'top 90%',
-    end: 'bottom 10%',
+    once: true,
     onEnter: () => el.classList.add('in-view'),
-    onLeave: () => el.classList.remove('in-view'),
-    onEnterBack: () => el.classList.add('in-view'),
-    onLeaveBack: () => el.classList.remove('in-view'),
   });
 });
 
@@ -4441,7 +4436,7 @@ gsap.utils.toArray('.condition-row').forEach((row, i) => {
         trigger: row,
         start: 'top 90%',
         end: 'bottom 10%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.03,
     });
@@ -4455,7 +4450,7 @@ gsap.fromTo('.step',
       trigger: '.timeline',
       start: 'top 85%',
       end: 'bottom 15%',
-      toggleActions: 'play reverse play reverse',
+      toggleActions: 'play none none none',
     },
   });
 
@@ -4469,7 +4464,7 @@ gsap.utils.toArray('.door').forEach((card, i) => {
         trigger: '.doors-grid',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.1,
     });
@@ -4484,7 +4479,7 @@ gsap.utils.toArray('.stat').forEach((stat, i) => {
         trigger: '.stats-grid',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.08,
     });
@@ -4499,7 +4494,7 @@ gsap.utils.toArray('.res-card, .download-card').forEach((card, i) => {
         trigger: '.resources-grid',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.1,
     });
@@ -4514,7 +4509,7 @@ gsap.utils.toArray('.team-card').forEach((card, i) => {
         trigger: '.team-scroll',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.08,
     });
@@ -4647,7 +4642,7 @@ gsap.utils.toArray('.price-row').forEach((row, i) => {
         trigger: '.price-list',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.08,
     });
@@ -4662,7 +4657,7 @@ gsap.utils.toArray('.plan-chip').forEach((chip, i) => {
         trigger: '.plans-row',
         start: 'top 90%',
         end: 'bottom 10%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.05,
     });
@@ -4677,7 +4672,7 @@ gsap.utils.toArray('.visit-list li').forEach((li, i) => {
         trigger: '.visit-list',
         start: 'top 85%',
         end: 'bottom 15%',
-        toggleActions: 'play reverse play reverse',
+        toggleActions: 'play none none none',
       },
       delay: i * 0.08,
     });
