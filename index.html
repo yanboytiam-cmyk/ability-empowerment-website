@@ -2905,19 +2905,15 @@
   }
 
   /* ===============================================================
-     PERF: content-visibility on far-below-fold sections
-     Skips layout/paint for off-screen content; intrinsic-size keeps
-     the scrollbar honest. No visual impact while sections are visible.
+     PERF: content-visibility — kept ONLY on footer.
+     Removed from animated sections because off-screen intrinsic-size
+     was shifting the document height, breaking ScrollTrigger positions
+     (cards/headlines stuck at opacity:0 because their triggers never
+     fired at the expected scroll position).
      =============================================================== */
-  section.conditions,
-  section.approach,
-  section.team,
-  section.insurance,
-  section.resources,
-  section.office,
   .footer{
     content-visibility: auto;
-    contain-intrinsic-size: 1px 1200px;
+    contain-intrinsic-size: 1px 600px;
   }
 </style>
 <div class="intro-overlay" id="introOverlay" aria-hidden="true">
@@ -4134,9 +4130,19 @@ function splitWords(el) {
   el.querySelectorAll('.w').forEach((w, i) => w.style.setProperty('--i', i));
 }
 
+/* Helper: reveal immediately if element is already in viewport at init,
+   otherwise let ScrollTrigger handle it. Prevents above-the-fold content
+   from being stuck invisible when start point is already past. */
+function isInOrAboveViewport(el) {
+  const r = el.getBoundingClientRect();
+  return r.top < window.innerHeight;
+}
+
 document.querySelectorAll('[data-split]').forEach((el) => {
   splitWords(el);
-  /* Reveal once and stay visible — prevents text disappearing on fast scroll */
+  if (isInOrAboveViewport(el)) {
+    el.classList.add('in-view');
+  }
   ScrollTrigger.create({
     trigger: el,
     start: 'top 88%',
@@ -4145,8 +4151,10 @@ document.querySelectorAll('[data-split]').forEach((el) => {
   });
 });
 
-/* Fade-up: reveal once and stay visible */
 document.querySelectorAll('.fade-up').forEach((el) => {
+  if (isInOrAboveViewport(el)) {
+    el.classList.add('in-view');
+  }
   ScrollTrigger.create({
     trigger: el,
     start: 'top 90%',
@@ -4322,6 +4330,23 @@ document.querySelectorAll('.btn').forEach((btn) => {
 if (document.fonts && document.fonts.ready) {
   document.fonts.ready.then(() => ScrollTrigger.refresh());
 }
+
+/* Also refresh after window load (images settle) and after intro overlay
+   exits — both events can change the document height and shift triggers. */
+window.addEventListener('load', () => ScrollTrigger.refresh());
+(function watchIntroExit(){
+  const o = document.getElementById('introOverlay');
+  if (!o) return;
+  if (o.classList.contains('intro-done')) { ScrollTrigger.refresh(); return; }
+  const obs = new MutationObserver(() => {
+    if (o.classList.contains('intro-done')) {
+      obs.disconnect();
+      /* Small delay so any layout-shifting transitions settle first */
+      setTimeout(() => ScrollTrigger.refresh(), 50);
+    }
+  });
+  obs.observe(o, { attributes: true, attributeFilter: ['class'] });
+})();
 
 const heroMedia = document.querySelector('.hero-media');
 if (heroMedia && !reduced) {
