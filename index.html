@@ -2293,7 +2293,7 @@
       position:absolute;inset:0;
       width:100%;height:100%;
       overflow:hidden;
-      background:var(--green-700); /* fallback while images load */
+      background:transparent; /* let the container's own gradient show while images load */
     }
     .media-cycle .layer{
       position:absolute;inset:0;
@@ -2303,12 +2303,14 @@
     }
     .media-cycle .layer.is-active{opacity:1}
     .media-cycle .layer > img,
-    .media-cycle .layer > video{
+    .media-cycle .layer > video,
+    .media-cycle .layer > picture,
+    .media-cycle .layer > picture > img{
       position:absolute;inset:0;
       width:100%;height:100%;
       object-fit:cover;
       display:block;
-      background:var(--green-700);
+      background:transparent;
     }
     /* When media-cycle is the only child (static single image),
        no crossfade needed — but the .is-active class is set on mount. */
@@ -2340,13 +2342,13 @@
 
     /* Adeline's 2:1 portrait in a 3:4 frame: center crop horizontally,
        bias toward the top so face stays in view. */
-    .team-portrait .media-cycle .layer > img{
+    .team-portrait .media-cycle .layer img{
       object-position:center 28%;
     }
     /* Resources covers — bias to top to feature the subject's face */
-    .res-cover .media-cycle .layer > img{ object-position:center 30%; }
+    .res-cover .media-cycle .layer img{ object-position:center 30%; }
     /* Office images — neutral center */
-    .o-img .media-cycle .layer > img{ object-position:center center; }
+    .o-img .media-cycle .layer img{ object-position:center center; }
 
     /* Video defaults inside cycles — disable native controls (JS-driven) */
     .media-cycle video{ pointer-events:none }
